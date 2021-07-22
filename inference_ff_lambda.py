@@ -43,7 +43,7 @@ import torchvision.transforms as transforms
 
 s3 = boto3.resource('s3')
 client_s3 = boto3.client('s3')
-result = client_s3.download_file("dsikar.models.bucket",'shufflenet_ff.pt', "/weights/shufflenet_ff.pt")
+result = client_s3.download_file("dsikar.models.bucket",'shufflenet_ff.pt', "/tmp/shufflenet_ff.pt")
 
 ##########################################################################
 
@@ -268,6 +268,9 @@ def read_img(frame, np_transforms):
     small_frame = Image.fromarray(small_frame)
     small_frame = np_transforms(small_frame).float()
     small_frame = small_frame.unsqueeze(0)
+    # this is a global parameter in the model we are basing this minimal case on, so
+    # we have to define locally to work on lambda
+    device = 'cpu'
     small_frame = small_frame.to(device)
 
     return small_frame
@@ -289,15 +292,15 @@ def lambda_handler(event, context):
     key = event['Records'][0]['s3']['object']['key']
     img = readImageFromBucket(key, bucket_name)
     print("Received image: ", key)
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-
+    # device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = 'cpu'  # above line seems to be timing out on lambda
     # model load
     model = shufflenet_v2_x0_5(
         pretrained=False, layers=[
             4, 8, 4], output_channels=[
             24, 48, 96, 192, 64], num_classes=1);
 
-    w_path = '/weights/shufflenet_ff.pt'
+    w_path = '/tmp/shufflenet_ff.pt'
     model.load_state_dict(torch.load(w_path, map_location=device));
 
     np_transforms = data_transform_shufflenetonfire(model);
