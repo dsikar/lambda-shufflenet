@@ -34,7 +34,7 @@ RUN python3.8 -m pip install -r requirements.txt
 RUN pip uninstall -y pillow && CC="cc -mavx2" pip install -U --force-reinstall pillow-simd
 
 # Copy the earlier created app.py file to the container
-COPY *.py ./
+COPY inference_ff_minimal.py ./
 
 # Set the CMD to your handler
 CMD ["inference_ff_lambda.lambda_handler"]
