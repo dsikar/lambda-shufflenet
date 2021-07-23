@@ -36,6 +36,15 @@ $ aws ecr get-login-password --region eu-west-2 | docker login --username AWS --
 
 $ docker push  784146270336.dkr.ecr.eu-west-2.amazonaws.com/lambda-shufflenet:latest
 ```
+and uploading the weights file obtained from
+```
+
+```
+to the appropriate bucket as e.g. shown in the lambda function [inference_ff_lambda.py](https://github.com/dsikar/lambda-shufflenet/blob/master/inference_ff_lambda.py)
+```
+result = client_s3.download_file("dsikar.models.bucket",'shufflenet_ff.pt', "/tmp/shufflenet_ff.pt")
+```
+In this case, the weights file shufflenet_ff.pt is copied to bucket dsikar.models.bucket".
 
 ## Adapting Shufflenet to run as AWS Lambda function
 
