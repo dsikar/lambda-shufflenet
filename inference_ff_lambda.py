@@ -291,7 +291,7 @@ def lambda_handler(event, context):
     bucket_name = event['Records'][0]['s3']['bucket']['name']
     key = event['Records'][0]['s3']['object']['key']
     img = readImageFromBucket(key, bucket_name)
-    print("Received image: ", key)
+    print("Image: ", key)
     # device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     device = 'cpu'  # above line seems to be timing out on lambda
     # model load
