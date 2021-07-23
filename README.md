@@ -16,6 +16,27 @@ The Shufflenet network is implemented in
 ```
 https://github.com/NeelBhowmik/efficient-compact-fire-detection-cnn
 ```
+
+### Creating the lambda
+Once again we follow
+```
+https://github.com/dsikar/lambda-tensorflow-example
+```
+Ammending lines:
+```
+$ aws configure (…)
+
+$ docker build -t  lambda-shufflenet .
+
+$ aws ecr create-repository --repository-name lambda-shufflenet --image-scanning-configuration scanOnPush=true --region eu-west-2
+
+$ docker tag lambda-shufflenet:latest  784146270336.dkr.ecr.eu-west-2.amazonaws.com/lambda-shufflenet:latest
+
+$ aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin  784146270336.dkr.ecr.eu-west-2.amazonaws.com
+
+$ docker push  784146270336.dkr.ecr.eu-west-2.amazonaws.com/lambda-shufflenet:latest
+```
+
 ## Adapting Shufflenet to run as AWS Lambda function
 
 The script [inference_ff_lambda.py](https://github.com/dsikar/lambda-shufflenet/blob/master/inference_ff_lambda.py) in modified from [inference_ff.py](https://github.com/NeelBhowmik/efficient-compact-fire-detection-cnn/blob/main/inference_ff.py), where the impor
