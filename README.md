@@ -113,4 +113,6 @@ aws lambda update-function-configuration --function-name lambda-shufflenet --mem
 ## Inconsistency of AWS Lambda/S3 compared to local environment
 
 Lambda predications are inconsistent with local predictions.
-Comments to follow.
+Comments to follow on fire1.png, fire2.png plus CloudWatch logs to support.
+
+TODO 1. Run on EC2 and observe outputs 2. Log issue with AWS support
