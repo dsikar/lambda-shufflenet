@@ -36,9 +36,9 @@ $ aws ecr get-login-password --region eu-west-2 | docker login --username AWS --
 
 $ docker push  784146270336.dkr.ecr.eu-west-2.amazonaws.com/lambda-shufflenet:latest
 ```
-and uploading the weights file obtained from
+and uploading the shufflenet_ff.pt model file obtained from
 ```
-
+https://github.com/dsikar/efficient-compact-fire-detection-cnn/blob/main/download-models.sh
 ```
 to the appropriate bucket as e.g. shown in the lambda function [inference_ff_lambda.py](https://github.com/dsikar/lambda-shufflenet/blob/master/inference_ff_lambda.py)
 ```
